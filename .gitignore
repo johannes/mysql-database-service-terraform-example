@@ -1,0 +1,4 @@
+mds-terraform.zip
+*.tfvars
+terraform.tfstate
+.terraform

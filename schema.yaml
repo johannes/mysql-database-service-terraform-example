@@ -1,0 +1,70 @@
+title: "MySQL Terraform Experiment"
+description: "An experimental Terraform setup to create MySQL Database Service Instances"
+schemaVersion: 1.1.0
+version: "20190304"
+locale: "en"
+
+groupings:
+  - title: "Basic Hidden"
+    visible: false
+    variables:
+    - compartment_ocid
+    - tenancy_ocid
+    - region
+
+  - title: "General Configuration"
+    variables:
+    - mysql_admin_user        
+    - mysql_admin_password
+    - public_key
+
+variables:
+  compartment_ocid:
+    type: oci:identity:compartment:id
+    # type: string
+    required: true
+    title: "Compartment"
+    description: "The compartment in which to create compute instance(s)"
+
+
+  mysql_admin_user:
+    type: string
+    required: true
+    title: "MySQL Admin User"
+    description: "Username for MySQL Admin User"
+    minLength: 1
+    maxLength: 14
+    pattern: "^[a-zA-Z][a-zA-Z0-9]+$"
+
+  mysql_admin_password:
+    type: password
+    required: true
+    title: "MySQL Password"
+    description: "Password for MySQL Admin User"
+    pattern: "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\\\"\\\\|,.<>\\/?]).{8,32}$"
+
+  public_key:
+    type: string
+    title: "SSH Public Key"
+    description: "An OpenSSH public key for accessing your compute instance"
+
+outputGroups:
+  - title: "MySQL Database Service"
+    outputs:
+      - mysql_url
+
+  - title: "Compute Instance"
+    outputs:
+      - compute_public_ip
+
+outputs:
+  mysql_url:
+    type: string
+    title: "MySQL Connection String"
+    visible: true
+ 
+  compute_public_ip:
+    type: string
+    title: "Public IP"
+    visible: true
+ 
